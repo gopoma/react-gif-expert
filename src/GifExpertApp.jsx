@@ -8,9 +8,13 @@ const GifExpertApp = () => {
     setCategories([newCategory, ...categories]);
   };
   const onCategoryEdited = (previousCategory, newCategory) => {
-    if(categories.some((category) => category.toLowerCase() === newCategory.toLowerCase())) return;
+    const alreadyIn = categories.some((category) => category.toLowerCase() === newCategory.toLowerCase());
+    if(previousCategory.toLowerCase() !== newCategory.toLowerCase() && alreadyIn) return;
+    const previousCategoryIndex = categories.findIndex((category) => category === previousCategory);
     const newCategories = categories.filter((category) => category !== previousCategory);
-    setCategories([newCategory, ...newCategories]);
+    // https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index-javascript
+    newCategories.splice(previousCategoryIndex, 0, newCategory);
+    setCategories(newCategories);
   };
   const onCategoryRemoved = (removedCategory) => {
     const newCategories = categories.filter((category) => category !== removedCategory);
