@@ -7,6 +7,15 @@ const GifExpertApp = () => {
     if(categories.some((category) => category.toLowerCase() === newCategory.toLowerCase())) return;
     setCategories([newCategory, ...categories]);
   };
+  const onCategoryEdited = (previousCategory, newCategory) => {
+    if(categories.some((category) => category.toLowerCase() === newCategory.toLowerCase())) return;
+    const newCategories = categories.filter((category) => category !== previousCategory);
+    setCategories([newCategory, ...newCategories]);
+  };
+  const onCategoryRemoved = (removedCategory) => {
+    const newCategories = categories.filter((category) => category !== removedCategory);
+    setCategories(newCategories);
+  };
 
   return (
     <>
@@ -16,6 +25,8 @@ const GifExpertApp = () => {
         <GifGrid 
           key={category} 
           category={category}
+          onCategoryEdited={onCategoryEdited}
+          onCategoryRemoved={onCategoryRemoved}
         />
       ))}
     </>
